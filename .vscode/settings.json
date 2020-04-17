@@ -1,0 +1,5 @@
+{
+    "csharpfixformat.style.indent.preprocessorIgnored": false,
+    "csharpfixformat.style.spaces.afterBracket": false,
+    "csharpfixformat.style.spaces.beforeParenthesis": false
+}
