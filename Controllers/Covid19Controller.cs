@@ -8,27 +8,27 @@ namespace Covid_19.CoreAPI.Controller {
     public class Covid19Controller : ControllerBase {
         [HttpGet("Timelines")]
         public ActionResult<List<Timeline>> GetTimelines() {
-            return Helper.DeserializeObjectFromFile<List<Timeline>>(Env.timelinesPath);
+            return Helper.DeserializeObjectFromFile<List<Timeline>>(Env.TimelinesPath);
         }
 
         [HttpGet("Global")]
         public ActionResult<Statistical> GetStatisticalGlobal() {
-            return Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalGlobalPath);
+            return Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalGlobalPath);
         }
 
         [HttpGet("VietNam")]
         public ActionResult<Statistical> GetStatisticalVietNam() {
-            return Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalVietNamPath);
+            return Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalVietNamPath);
         }
 
         [HttpGet("Provinces")]
         public ActionResult<List<Statistical>> GetStatisticalProvinces() {
-            return Helper.DeserializeObjectFromFile<List<Statistical>>(Env.statisticalProvincesPath);
+            return Helper.DeserializeObjectFromFile<List<Statistical>>(Env.StatisticalProvincesPath);
         }
 
         [HttpGet("Patients")]
         public ActionResult<List<Patient>> GetStatisticalPatients() {
-            return Helper.DeserializeObjectFromFile<List<Patient>>(Env.statisticalPatientsPath);
+            return Helper.DeserializeObjectFromFile<List<Patient>>(Env.StatisticalPatientsPath);
         }
     }
 }

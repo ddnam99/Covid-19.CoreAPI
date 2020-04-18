@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace Covid_19.CoreAPI {
     public class Program {
         public static void Main(string[] args) {
-            if (!Directory.Exists(Env.dataDirectory)) Directory.CreateDirectory(Env.dataDirectory);
+            if (!Directory.Exists(Env.DataDirectory)) Directory.CreateDirectory(Env.DataDirectory);
             var updateTask = new Task(async() => {
                 while (true) {
                     await Task.Factory.StartNew(async() => await UpdateDataAsync());
@@ -45,26 +45,26 @@ namespace Covid_19.CoreAPI {
             var patients = patientsTask.Result;
             var timelines = timelineTask.Result;
 
-            if (File.Exists(Env.statisticalGlobalPath)) {
-                if (!global.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalGlobalPath)))
-                    Helper.SerializeObjectToFile(Env.statisticalGlobalPath, global);
-            } else Helper.SerializeObjectToFile(Env.statisticalGlobalPath, global);
-            if (File.Exists(Env.statisticalVietNamPath)) {
-                if (!vietNam.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalVietNamPath)))
-                    Helper.SerializeObjectToFile(Env.statisticalVietNamPath, vietNam);
-            } else Helper.SerializeObjectToFile(Env.statisticalVietNamPath, vietNam);
-            if (File.Exists(Env.statisticalProvincesPath)) {
-                if (!provinces.Equals(Helper.DeserializeObjectFromFile<List<Statistical>>(Env.statisticalProvincesPath)))
-                    Helper.SerializeObjectToFile(Env.statisticalProvincesPath, provinces);
-            } else Helper.SerializeObjectToFile(Env.statisticalProvincesPath, provinces);
-            if (File.Exists(Env.statisticalPatientsPath)) {
-                if (!patients.Equals(Helper.DeserializeObjectFromFile<List<Statistical>>(Env.statisticalPatientsPath)))
-                    Helper.SerializeObjectToFile(Env.statisticalPatientsPath, patients);
-            } else Helper.SerializeObjectToFile(Env.statisticalPatientsPath, patients);
-            if (File.Exists(Env.timelinesPath)) {
-                if (!timelines.Equals(Helper.DeserializeObjectFromFile<List<Timeline>>(Env.timelinesPath)))
-                    Helper.SerializeObjectToFile(Env.timelinesPath, timelines);
-            } else Helper.SerializeObjectToFile(Env.timelinesPath, timelines);
+            if (File.Exists(Env.StatisticalGlobalPath)) {
+                if (!global.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalGlobalPath)))
+                    Helper.SerializeObjectToFile(Env.StatisticalGlobalPath, global);
+            } else Helper.SerializeObjectToFile(Env.StatisticalGlobalPath, global);
+            if (File.Exists(Env.StatisticalVietNamPath)) {
+                if (!vietNam.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalVietNamPath)))
+                    Helper.SerializeObjectToFile(Env.StatisticalVietNamPath, vietNam);
+            } else Helper.SerializeObjectToFile(Env.StatisticalVietNamPath, vietNam);
+            if (File.Exists(Env.StatisticalProvincesPath)) {
+                if (!provinces.Equals(Helper.DeserializeObjectFromFile<List<Statistical>>(Env.StatisticalProvincesPath)))
+                    Helper.SerializeObjectToFile(Env.StatisticalProvincesPath, provinces);
+            } else Helper.SerializeObjectToFile(Env.StatisticalProvincesPath, provinces);
+            if (File.Exists(Env.StatisticalPatientsPath)) {
+                if (!patients.Equals(Helper.DeserializeObjectFromFile<List<Statistical>>(Env.StatisticalPatientsPath)))
+                    Helper.SerializeObjectToFile(Env.StatisticalPatientsPath, patients);
+            } else Helper.SerializeObjectToFile(Env.StatisticalPatientsPath, patients);
+            if (File.Exists(Env.TimelinesPath)) {
+                if (!timelines.Equals(Helper.DeserializeObjectFromFile<List<Timeline>>(Env.TimelinesPath)))
+                    Helper.SerializeObjectToFile(Env.TimelinesPath, timelines);
+            } else Helper.SerializeObjectToFile(Env.TimelinesPath, timelines);
         }
     }
 }
