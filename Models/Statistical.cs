@@ -28,7 +28,7 @@ namespace Covid_19.CoreAPI.Models {
                 var statisticalsHTML = Regex.Match(html, pattern, RegexOptions.Singleline).Value;
 
                 var result = statisticalsHTML.Split("<hr").ToList().Select(i => {
-                    var regex = Regex.Matches(i, "<span(.*?)>(?<value>.*?)<", RegexOptions.Singleline);
+                    var regex = Regex.Matches(i, "<span.*?>(?<value>.*?)<", RegexOptions.Singleline);
                     return new Statistical() {
                         Name = regex[0].Groups["value"].Value,
                             Confirmed = regex[1].Groups["value"].Value,
@@ -44,10 +44,10 @@ namespace Covid_19.CoreAPI.Models {
 
         public static async Task<List<Statistical>> GetProvincesAsync(string html) {
             return await Task.Run(() => {
-                var pattern = "<table id=\"sailorTable\"(.*?)<tbody>(?<data>.*?)</tbody>";
+                var pattern = "<table id=\"sailorTable\".*?<tbody>(?<data>.*?)</tbody>";
                 var statisticalHTML = Regex.Match(html, pattern, RegexOptions.Singleline).Groups["data"].Value;
 
-                return Regex.Matches(statisticalHTML, "<tr>(.*?)</tr>", RegexOptions.Singleline).Select(i => {
+                return Regex.Matches(statisticalHTML, "<tr>.*?</tr>", RegexOptions.Singleline).Select(i => {
                     var regex = Regex.Matches(i.Value, "<td>(?<value>.*?)</td>", RegexOptions.Singleline);
 
                     return new Statistical() {

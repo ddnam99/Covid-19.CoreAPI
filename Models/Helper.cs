@@ -1,5 +1,7 @@
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -42,6 +44,13 @@ namespace Covid_19.CoreAPI.Models {
 
         public static T DeserializeObjectFromFile<T>(string path) {
             return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+        }
+
+        public static string RemoveTag(string html) {
+            Regex.Matches(html, "<.*?>", RegexOptions.Singleline).ToList()
+                .ForEach(i => html = html.Replace(i.Value, string.Empty));
+
+            return html;
         }
     }
 }

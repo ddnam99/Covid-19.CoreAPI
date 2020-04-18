@@ -16,7 +16,7 @@ namespace Covid_19.CoreAPI.Models {
 
         public static async Task<List<Timeline>> GetTimelinesAsync(string html) {
             return await Task.Run(() => {
-                var contents = Regex.Matches(html, "<div class=\"timeline-head\">(.*?)<h3>(?<timeStamp>.*?)</h3>(.*?)<p>(?<content>.*?)</p>", RegexOptions.Singleline);
+                var contents = Regex.Matches(html, "<div class=\"timeline-head\">.*?<h3>(?<timeStamp>.*?)</h3>.*?<p>(?<content>.*?)</p>", RegexOptions.Singleline);
 
                 return contents.Select(i => new Timeline() {
                     TimeStamp = i.Groups["timeStamp"].Value,

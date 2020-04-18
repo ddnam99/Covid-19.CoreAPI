@@ -26,10 +26,10 @@ namespace Covid_19.CoreAPI.Models {
 
         public static async Task<List<Patient>> GetPatientsAsync(string html) {
             return await Task.Run(() => {
-                var pattern = "<table id=\"sailorTable\"(.*?)<tbody>(?<data>.*?)</tbody>";
+                var pattern = "<table id=\"sailorTable\".*?<tbody>(?<data>.*?)</tbody>";
                 var statisticalHTML = Regex.Matches(html, pattern, RegexOptions.Singleline) [1].Groups["data"].Value;
 
-                return Regex.Matches(statisticalHTML, "<tr>(.*?)</tr>", RegexOptions.Singleline).Select(i => {
+                return Regex.Matches(statisticalHTML, "<tr>.*?</tr>", RegexOptions.Singleline).Select(i => {
                     var regex = Regex.Matches(i.Value, "<td>(?<value>.*?)</td>", RegexOptions.Singleline);
 
                     return new Patient() {
