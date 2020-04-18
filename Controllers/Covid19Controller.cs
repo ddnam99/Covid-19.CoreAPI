@@ -6,11 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Covid_19.CoreAPI.Controller {
     [ApiController, Route("[controller]")]
     public class Covid19Controller : ControllerBase {
-        [HttpGet("Timelines")]
-        public ActionResult<List<Timeline>> GetTimelines() {
-            return Helper.DeserializeObjectFromFile<List<Timeline>>(Env.TimelinesPath);
-        }
-
         [HttpGet("Global")]
         public ActionResult<Statistical> GetStatisticalGlobal() {
             return Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalGlobalPath);
@@ -29,6 +24,11 @@ namespace Covid_19.CoreAPI.Controller {
         [HttpGet("Patients")]
         public ActionResult<List<Patient>> GetStatisticalPatients() {
             return Helper.DeserializeObjectFromFile<List<Patient>>(Env.StatisticalPatientsPath);
+        }
+
+        [HttpGet("Timelines/{index}")]
+        public async Task<ActionResult<List<Timeline>>> GetTimelinesAsync(int index = 1) {
+            return await Timeline.GetTimelinesAsync(index);
         }
 
         [HttpGet("News/{index}")]

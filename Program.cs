@@ -37,13 +37,11 @@ namespace Covid_19.CoreAPI {
             var vietNamGlobalTask = Statistical.GetVietNamGlobalAsync(html);
             var provincesTask = Statistical.GetProvincesAsync(html);
             var patientsTask = Patient.GetPatientsAsync(html);
-            var timelineTask = Timeline.GetTimelinesAsync(html);
-            Task.WaitAll(vietNamGlobalTask, provincesTask, patientsTask, timelineTask);
+            Task.WaitAll(vietNamGlobalTask, provincesTask, patientsTask);
 
             var(vietNam, global) = vietNamGlobalTask.Result;
             var provinces = provincesTask.Result;
             var patients = patientsTask.Result;
-            var timelines = timelineTask.Result;
 
             if (File.Exists(Env.StatisticalGlobalPath)) {
                 if (!global.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalGlobalPath)))
@@ -61,10 +59,6 @@ namespace Covid_19.CoreAPI {
                 if (!patients.Equals(Helper.DeserializeObjectFromFile<List<Statistical>>(Env.StatisticalPatientsPath)))
                     Helper.SerializeObjectToFile(Env.StatisticalPatientsPath, patients);
             } else Helper.SerializeObjectToFile(Env.StatisticalPatientsPath, patients);
-            if (File.Exists(Env.TimelinesPath)) {
-                if (!timelines.Equals(Helper.DeserializeObjectFromFile<List<Timeline>>(Env.TimelinesPath)))
-                    Helper.SerializeObjectToFile(Env.TimelinesPath, timelines);
-            } else Helper.SerializeObjectToFile(Env.TimelinesPath, timelines);
         }
     }
 }

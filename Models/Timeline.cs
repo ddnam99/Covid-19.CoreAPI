@@ -13,8 +13,13 @@ namespace Covid_19.CoreAPI.Models {
             TimeStamp = timeStamp;
             Content = content;
         }
+        public static async Task<List<Timeline>> GetTimelinesAsync(int indexPage = 1) {
+            var url = $"https://ncov.moh.gov.vn/web/guest/dong-thoi-gian?p_p_id=101_INSTANCE_iEPhEhL1XSde&_101_INSTANCE_iEPhEhL1XSde_cur={indexPage}";
+            var html = await Helper.GetHTMLAsync(url);
 
-        public static async Task<List<Timeline>> GetTimelinesAsync(string html) {
+            return await ConvertHTMLAsync(html);
+        }
+        private static async Task<List<Timeline>> ConvertHTMLAsync(string html) {
             return await Task.Run(() => {
                 var contents = Regex.Matches(html, "<div class=\"timeline-head\">.*?<h3>(?<timeStamp>.*?)</h3>.*?<p>(?<content>.*?)</p>", RegexOptions.Singleline);
 
