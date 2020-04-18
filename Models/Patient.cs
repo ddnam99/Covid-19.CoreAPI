@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -51,6 +52,10 @@ namespace Covid_19.CoreAPI.Models {
                 Address == patient.Address &&
                 Status == patient.Status &&
                 Nationality == patient.Nationality;
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(PatientCode, Age, Gender, Address, Status, Nationality);
         }
     }
 }

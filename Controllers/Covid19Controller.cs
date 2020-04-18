@@ -7,40 +7,28 @@ namespace Covid_19.CoreAPI.Controller {
     [ApiController, Route("[controller]")]
     public class Covid19Controller : ControllerBase {
         [HttpGet("Timelines")]
-        public async Task<ActionResult<List<Timeline>>> GetTimelinesAsync() {
-            var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
-
-            return await Timeline.GetTimelinesAsync(html);
+        public ActionResult<List<Timeline>> GetTimelines() {
+            return Helper.DeserializeObjectFromFile<List<Timeline>>(Env.timelinesPath);
         }
 
         [HttpGet("Global")]
-        public async Task<ActionResult<Statistical>> GetStatisticalGlobalAsync() {
-            var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
-            var result = await Statistical.GetVietNamGlobalAsync(html);
-
-            return result.Global;
+        public ActionResult<Statistical> GetStatisticalGlobal() {
+            return Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalGlobalPath);
         }
 
         [HttpGet("VietNam")]
-        public async Task<ActionResult<Statistical>> GetStatisticalVietNamAsync() {
-            var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
-            var result = await Statistical.GetVietNamGlobalAsync(html);
-
-            return result.VietNam;
+        public ActionResult<Statistical> GetStatisticalVietNam() {
+            return Helper.DeserializeObjectFromFile<Statistical>(Env.statisticalVietNamPath);
         }
 
         [HttpGet("Provinces")]
-        public async Task<ActionResult<List<Statistical>>> GetStatisticalProvincesAsync() {
-            var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
-
-            return await Statistical.GetProvincesAsync(html);
+        public ActionResult<List<Statistical>> GetStatisticalProvinces() {
+            return Helper.DeserializeObjectFromFile<List<Statistical>>(Env.statisticalProvincesPath);
         }
 
         [HttpGet("Patients")]
-        public async Task<ActionResult<List<Patient>>> GetStatisticalPatientsAsync() {
-            var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
-
-            return await Patient.GetPatientsAsync(html);
+        public ActionResult<List<Patient>> GetStatisticalPatients() {
+            return Helper.DeserializeObjectFromFile<List<Patient>>(Env.statisticalPatientsPath);
         }
     }
 }

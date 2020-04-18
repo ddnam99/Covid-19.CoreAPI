@@ -41,7 +41,7 @@ namespace Covid_19.CoreAPI {
             app.UseSwaggerUI (c => {
                 c.DocumentTitle = "Covid-19 API Document </> Double D";
                 c.RoutePrefix = "Covid19";
-                c.SwaggerEndpoint ("/Covid19/swagger/v1.json", "API v1");
+                c.SwaggerEndpoint ("/Covid19/swagger/v1.json", "Covid-19 API v1");
             });
         }
     }

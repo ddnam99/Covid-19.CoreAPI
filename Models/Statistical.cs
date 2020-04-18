@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -67,6 +68,10 @@ namespace Covid_19.CoreAPI.Models {
                 Treating == statistical.Treating &&
                 Recovered == statistical.Recovered &&
                 Deaths == statistical.Deaths;
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(Name, Confirmed, Treating, Recovered, Deaths);
         }
     }
 }

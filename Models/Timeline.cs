@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -28,6 +29,10 @@ namespace Covid_19.CoreAPI.Models {
             return obj is Timeline timeline &&
                 TimeStamp == timeline.TimeStamp &&
                 Content == timeline.Content;
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(TimeStamp, Content);
         }
     }
 }
