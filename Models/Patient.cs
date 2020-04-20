@@ -38,7 +38,7 @@ namespace Covid_19.CoreAPI.Models {
                             Gender = regex[2].Groups["value"].Value,
                             Address = regex[3].Groups["value"].Value,
                             Status = regex[4].Groups["value"].Value,
-                            Nationality = regex[4].Groups["value"].Value
+                            Nationality = regex[5].Groups["value"].Value
                     };
                 }).ToList();
             });
