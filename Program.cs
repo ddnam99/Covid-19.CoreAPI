@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Covid_19.CoreAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace Covid_19.CoreAPI {
     public class Program {
@@ -14,7 +13,11 @@ namespace Covid_19.CoreAPI {
             if (!Directory.Exists(Env.DataDirectory)) Directory.CreateDirectory(Env.DataDirectory);
             var updateTask = new Task(async() => {
                 while (true) {
-                    await Task.Factory.StartNew(async() => await UpdateDataAsync());
+                    try {
+                        await Task.Factory.StartNew(async() => await UpdateDataAsync());
+                    } catch (Exception e) {
+                        Helper.LogError($"Covid-19.CoreAPI ERROR: Update task\n{e}");
+                    }
 
                     Thread.Sleep(TimeSpan.FromMinutes(1));
                 }
@@ -34,14 +37,9 @@ namespace Covid_19.CoreAPI {
         private static async Task UpdateDataAsync() {
             var html = await Helper.GetHTMLAsync("https://ncov.moh.gov.vn/");
 
-            var vietNamGlobalTask = Statistical.GetVietNamGlobalAsync(html);
-            var provincesTask = Statistical.GetProvincesAsync(html);
-            var patientsTask = Patient.GetPatientsAsync(html);
-            Task.WaitAll(vietNamGlobalTask, provincesTask, patientsTask);
-
-            var(vietNam, global) = vietNamGlobalTask.Result;
-            var provinces = provincesTask.Result;
-            var patients = patientsTask.Result;
+            var(vietNam, global) = await Statistical.GetVietNamGlobalAsync(html);
+            var provinces = await Statistical.GetProvincesAsync(html);
+            var patients = await Patient.GetPatientsAsync(html);
 
             if (File.Exists(Env.StatisticalGlobalPath)) {
                 if (!global.Equals(Helper.DeserializeObjectFromFile<Statistical>(Env.StatisticalGlobalPath)))
