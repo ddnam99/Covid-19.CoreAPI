@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,7 +21,7 @@ namespace Covid_19.CoreAPI.Models {
         }
 
         public static void LogError(string ErrorStr) {
-            Message($"```{ErrorStr}```", Environment.GetEnvironmentVariable("SLACK_WEBHOOK_LOG_ERROR"));
+            Message($"```{ErrorStr}```", Env.SLACK_WEBHOOK_LOG_ERROR);
         }
 
         public static string Message(string Text, string Webhook, bool isblock = false) {

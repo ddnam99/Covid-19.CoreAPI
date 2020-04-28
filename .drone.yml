@@ -1,0 +1,31 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: publish
+    image: appleboy/drone-ssh
+    settings:
+      host: 150.95.109.21
+      port: 22
+      username: root
+      password:
+        from_secret: password
+      command_timeout: 6m
+      script:
+        - cd Covid-19.CoreAPI
+        - git reset HEAD --hard
+        - git pull
+        - dotnet restore
+        - dotnet publish -c Release -o out
+        - pm2 reload Covid-19.CoreAPI
+    when:
+      branch:
+        - master
+      event:
+        - push
+      status:
+        - success
+
+image_pull_secrets:
+  - dockerconfigjson
