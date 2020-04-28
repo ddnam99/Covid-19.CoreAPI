@@ -13,7 +13,7 @@ steps:
         from_secret: password
       command_timeout: 6m
       script:
-        - cd Covid-19.CoreAPI
+        - cd Covid-19-CoreAPI
         - git reset HEAD --hard
         - git pull
         - dotnet restore
