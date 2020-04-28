@@ -27,13 +27,5 @@ steps:
       status:
         - success
 
-  - name: slack
-    image: plugins/slack
-    settings:
-      webhook: https://hooks.slack.com/services/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
-      channel: '#covid19-project'
-    when:
-      status: [ success, failure ]
-
 image_pull_secrets:
   - dockerconfigjson
