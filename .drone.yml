@@ -3,15 +3,6 @@ type: docker
 name: default
 
 steps:
-  steps:
-    - name: slack
-      image: plugins/slack
-      settings:
-        webhook: https://hooks.slack.com/services/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
-        channel: covid19-project
-      when:
-        status: [ success, failure ]
-
   - name: publish
     image: appleboy/drone-ssh
     settings:
