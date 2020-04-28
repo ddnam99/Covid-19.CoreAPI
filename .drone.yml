@@ -4,10 +4,10 @@ name: default
 
 steps:
   - name: build
-    image: registry.gitlab.com/namdd72/covid-19-coreapi:latest
+    image: microsoft/dotnet
     commands:
-    - sleep 10
-    - CI=false dotnet publish -c Release -o out
+    - dotnet restore
+    - dotnet publish -c Release -o out
 
   - name: slack
     image: plugins/slack
