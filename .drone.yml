@@ -3,6 +3,28 @@ type: docker
 name: default
 
 steps:
+  - name: build
+    image: registry.gitlab.com/namdd72/covid-19-coreapi:latest
+    commands:
+    - sleep 10
+    - CI=false dotnet publish -c Release -o out
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: '#covid19-project'
+      link_names: true
+      icon_emoji: ':hammer:'
+      template: >
+        {{#success build.status}}
+          Build {{uppercasefirst build.event}} action <{{build.link}}|Build {{build.number}}> succeeded. Good job.
+        {{else}}
+         Build {{uppercasefirst build.event}} action <{{build.link}}|Build {{build.number}}> failed. Fix now!
+        {{/success}}
+    when:
+      status: [ success, failure ]
+      
   - name: publish
     image: appleboy/drone-ssh
     settings:
