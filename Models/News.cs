@@ -6,17 +6,27 @@ using System.Threading.Tasks;
 
 namespace Covid_19.CoreAPI.Models {
     public class News {
-        public string Title { get; private set; }
-        public string Url { get; private set; }
-        public string Src { get; private set; }
-        public string Description { get; private set; }
+        #region Properties
+        private string title;
+        private string url;
+        private string src;
+        private string poster;
+        private string description;
+
+        public string Title { get => title; private set => title = value; }
+        public string Url { get => url; private set => url = value; }
+        public string Src { get => src; private set => src = value.StartsWith("/") ? $"https://ncov.moh.gov.vn{value}" : value; }
+        public string Poster { get => string.IsNullOrEmpty(poster) ? null : poster; private set => poster = value.StartsWith("/") ? $"https://ncov.moh.gov.vn{value}" : value; }
+        public string Description { get => description; private set => description = value; }
+        #endregion
 
         private News() { }
 
-        public News(string title, string url, string src, string description) {
+        public News(string title, string url, string src, string poster, string description) {
             Title = title;
             Url = url;
             Src = src;
+            Poster = poster;
             Description = description;
         }
 
@@ -65,11 +75,12 @@ namespace Covid_19.CoreAPI.Models {
         private static async Task<List<News>> ConvertHTMLAsync(string html) {
             return await Task.Run(() => {
                 var htmlNews = Regex.Match(html, "<div class=\"subscribe-action\">.*?<div class=\"clearfix", RegexOptions.Singleline).Value;
-                return Regex.Matches(htmlNews, "<div class=.*?src=\"(?<src>.*?)\".*?href=\"(?<url>.*?)\">(?<title>.*?)</.*?Description.*?>(?<description>.*?)<", RegexOptions.Singleline)
+                return Regex.Matches(htmlNews, "<div class=.*?(|poster=\"(?<poster>.*?)\".*?)src=\"(?<src>.*?)\".*?href=\"(?<url>.*?)\">(?<title>.*?)</.*?Description.*?>(?<description>.*?)<", RegexOptions.Singleline)
                     .Select(i => new News() {
                         Title = Helper.RemoveTag(i.Groups["title"].Value),
                             Url = i.Groups["url"].Value,
-                            Src = i.Groups["src"].Value.StartsWith("/") ? $"https://ncov.moh.gov.vn{i.Groups["src"].Value}" : i.Groups["src"].Value,
+                            Poster = i.Groups["poster"].Value,
+                            Src = i.Groups["src"].Value,
                             Description = i.Groups["description"].Value
                     }).ToList();
             });
@@ -80,11 +91,12 @@ namespace Covid_19.CoreAPI.Models {
                 Title == news.Title &&
                 Url == news.Url &&
                 Src == news.Src &&
+                Poster == news.Poster &&
                 Description == news.Description;
         }
 
         public override int GetHashCode() {
-            return HashCode.Combine(Title, Url, Src, Description);
+            return HashCode.Combine(Title, Url, Src, Poster, Description);
         }
     }
 }
