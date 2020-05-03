@@ -1,0 +1,7 @@
+.vscode
+bin
+data
+obj
+.drone.yml
+.gitignore
+README.md
